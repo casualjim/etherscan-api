@@ -18,7 +18,7 @@ func wrapErr(err error, msg string) (errWithContext error) {
 		return
 	}
 
-	errWithContext = fmt.Errorf("%s: %v", msg, err)
+	errWithContext = fmt.Errorf("%s: %w", msg, err)
 	return
 }
 

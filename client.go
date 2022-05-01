@@ -173,7 +173,14 @@ func (c *Client) call(module, action string, param map[string]interface{}, outco
 		return
 	}
 	if envelope.Status != 1 {
-		err = fmt.Errorf("etherscan server: %s", envelope.Message)
+		msg := envelope.Message
+		if msg == "NOTOK" {
+			var s string
+			if serr := json.Unmarshal(envelope.Result, &s); serr == nil {
+				msg = s
+			}
+		}
+		err = fmt.Errorf("etherscan server: %s", msg)
 		return
 	}
 
